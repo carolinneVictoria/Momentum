@@ -1,4 +1,4 @@
-package com.jailton.androidapptemplate.ui.usuario
+package com.carolinne.momentum.ui.usuario
 
 import android.os.Bundle
 import android.util.Log
@@ -11,7 +11,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.database.DatabaseReference
-import com.jailton.androidapptemplate.R
+import com.carolinne.momentum.R
 
 class CadastroUsuarioActivity  : AppCompatActivity() {
     private lateinit var textCadastroUsuarioTitle: TextView
