@@ -1,4 +1,4 @@
-package com.jailton.androidapptemplate.baseclasses
+package com.carolinne.momentum.baseclasses
 
 data class Usuario(
     var key: String? = null,
