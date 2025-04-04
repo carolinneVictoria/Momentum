@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.carolinne.momentum.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:name="com.carolinne.momentum.ui.usuario.PerfilUsuarioFragment"
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_perfil_usuario" />
 </navigation>
