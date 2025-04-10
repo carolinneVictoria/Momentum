@@ -11,9 +11,9 @@
     <TextView
         android:id="@+id/textCadastroUsuarioTitle"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/edit_text_height"
         android:layout_marginTop="32dp"
-        android:text="Atualização de Usuário"
+        android:text="@string/atualizacao_de_usuario"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,24 +28,24 @@
         app:layout_constraintTop_toBottomOf="@id/textCadastroUsuarioTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:contentDescription="Foto de perfil"/>
+        android:contentDescription="@string/foto_de_perfil"/>
 
 
     <EditText
         android:id="@+id/registerNameEditText"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Nome"
+        android:layout_height="@dimen/edit_text_height"
+        android:hint="@string/nome"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/userProfileImageView"/>
+        app:layout_constraintTop_toBottomOf="@id/userProfileImageView" />
 
     <EditText
         android:id="@+id/registerEmailEditText"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Email"
+        android:layout_height="@dimen/edit_text_height"
+        android:hint="@string/email"
         android:inputType="textEmailAddress"
         app:layout_constraintTop_toBottomOf="@id/registerNameEditText"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,8 +54,8 @@
     <EditText
         android:id="@+id/registerEnderecoEditText"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Endereço"
+        android:layout_height="@dimen/edit_text_height"
+        android:hint="@string/escreva_aqui_o_endereço"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/registerEmailEditText" />
@@ -63,8 +63,8 @@
     <EditText
         android:id="@+id/registerPasswordEditText"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Senha"
+        android:layout_height="@dimen/edit_text_height"
+        android:hint="@string/senha"
         android:inputType="textPassword"
         app:layout_constraintTop_toBottomOf="@id/registerEnderecoEditText"
         app:layout_constraintStart_toStartOf="parent"
@@ -73,8 +73,8 @@
     <EditText
         android:id="@+id/registerConfirmPasswordEditText"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Confirmar Senha"
+        android:layout_height="@dimen/edit_text_height"
+        android:hint="@string/confirmar_senha"
         android:inputType="textPassword"
         app:layout_constraintTop_toBottomOf="@id/registerPasswordEditText"
         app:layout_constraintStart_toStartOf="parent"
@@ -83,8 +83,8 @@
     <Button
         android:id="@+id/registerButton"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Atualizar"
+        android:layout_height="@dimen/edit_text_height"
+        android:text="@string/atualizar"
         app:layout_constraintTop_toBottomOf="@id/registerConfirmPasswordEditText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -92,8 +92,8 @@
     <Button
         android:id="@+id/sairButton"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Sair"
+        android:layout_height="@dimen/edit_text_height"
+        android:text="@string/sair"
         app:layout_constraintTop_toBottomOf="@id/registerButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>

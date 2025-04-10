@@ -1,4 +1,4 @@
-package com.jailton.androidapptemplate
+package com.carolinne.momentum
 
 import org.junit.Test
 
