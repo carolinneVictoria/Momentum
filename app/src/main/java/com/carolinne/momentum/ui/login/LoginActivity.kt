@@ -1,4 +1,4 @@
-package com.carolinne.momentum.ui.login
+package com.jailton.androidapptemplate.ui.login
 
 import android.content.ContentValues.TAG
 import android.content.Intent
@@ -9,24 +9,19 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.FirebaseApp
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.carolinne.momentum.R
-import com.carolinne.momentum.ui.usuario.CadastroUsuarioActivity
-import com.carolinne.momentum.MainActivity
-
-
-import android.content.ContentValues.TAG
-
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.common.api.ApiException
-
+import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import com.carolinne.momentum.MainActivity
+import com.carolinne.momentum.R
+import com.carolinne.momentum.ui.usuario.CadastroUsuarioActivity
 
 class LoginActivity : AppCompatActivity() {
 
