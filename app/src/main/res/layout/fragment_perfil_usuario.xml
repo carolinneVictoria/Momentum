@@ -39,7 +39,8 @@
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/userProfileImageView" />
+        app:layout_constraintTop_toBottomOf="@id/userProfileImageView"
+        tools:ignore="TextFields" />
 
     <EditText
         android:id="@+id/registerEmailEditText"
@@ -58,7 +59,8 @@
         android:hint="@string/escreva_aqui_o_endereço"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/registerEmailEditText" />
+        app:layout_constraintTop_toBottomOf="@id/registerEmailEditText"
+        tools:ignore="TextFields" />
 
     <EditText
         android:id="@+id/registerPasswordEditText"

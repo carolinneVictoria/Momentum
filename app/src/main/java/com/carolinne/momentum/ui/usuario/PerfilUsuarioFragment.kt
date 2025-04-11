@@ -112,7 +112,7 @@ class PerfilUsuarioFragment : Fragment() {
         // Exibe os dados do usuario logado, se disponivel
 
         // Acessar currentUser
-        var userFirebase = auth.currentUser
+        val userFirebase = auth.currentUser
         if(userFirebase != null){
             registerNameEditText.setText(userFirebase.displayName)
             registerEmailEditText.setText(userFirebase.email)
@@ -121,7 +121,7 @@ class PerfilUsuarioFragment : Fragment() {
         }
     }
 
-    fun recuperarDadosUsuario(usuarioKey: String) {
+    private fun recuperarDadosUsuario(usuarioKey: String) {
         val databaseReference = FirebaseDatabase.getInstance().getReference("users")
 
         databaseReference.child(usuarioKey).addListenerForSingleValueEvent(object :
@@ -162,7 +162,7 @@ class PerfilUsuarioFragment : Fragment() {
             .setDisplayName(displayName)
             .build()
 
-        val usuario = Usuario(user?.uid.toString() , displayName, user?.email, endereco, )
+        val usuario = Usuario(user?.uid.toString(), displayName, user?.email, endereco)
 
         user?.updateProfile(profileUpdates)
             ?.addOnCompleteListener { task ->

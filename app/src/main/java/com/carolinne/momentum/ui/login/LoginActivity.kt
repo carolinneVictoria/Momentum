@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.carolinne.momentum.ui.login
 
 import android.content.Intent
@@ -50,11 +52,11 @@ class LoginActivity : AppCompatActivity() {
         passwordEditText = findViewById(R.id.edit_text_password)
         loginButton = findViewById(R.id.button_login)
         registerLink = findViewById(R.id.registerLink)
-        btnGoogleSignIn = findViewById<SignInButton>(R.id.btnGoogleSignIn)
+        btnGoogleSignIn = findViewById(R.id.btnGoogleSignIn)
 
         val registerLink: TextView = findViewById(R.id.registerLink)
         registerLink.setOnClickListener {
-            val intent: Intent = Intent(
+            val intent = Intent(
                 applicationContext,
                 CadastroUsuarioActivity::class.java
             )
@@ -134,6 +136,7 @@ class LoginActivity : AppCompatActivity() {
             }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
