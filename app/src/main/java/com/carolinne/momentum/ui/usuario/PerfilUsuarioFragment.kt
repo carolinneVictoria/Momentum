@@ -1,4 +1,4 @@
-package com.jailton.androidapptemplate.ui.usuario
+package com.carolinne.momentum.ui.usuario
 
 import android.os.Bundle
 import android.util.Log

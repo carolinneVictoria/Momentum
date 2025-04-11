@@ -1,4 +1,4 @@
-package com.jailton.androidapptemplate.ui.login
+package com.carolinne.momentum.ui.login
 
 import android.content.ContentValues.TAG
 import android.content.Intent
