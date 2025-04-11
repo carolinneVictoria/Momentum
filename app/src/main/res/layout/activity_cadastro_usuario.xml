@@ -23,7 +23,7 @@
     <EditText
         android:id="@+id/registerNameEditText"
         android:layout_width="0dp"
-        android:layout_height="@dimen/edit_text_height"
+        android:layout_height="@dimen/edit_text_height2"
         android:layout_marginTop="16dp"
         android:hint="@string/nome"
         app:layout_constraintEnd_toEndOf="parent"

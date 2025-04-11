@@ -3,6 +3,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <dimen name="edit_text_height">48dp</dimen>
     <dimen name="edit_text_widht">0.10dp</dimen>
+    <dimen name="edit_text_height">48dp</dimen>
+    <dimen name="edit_text_height2">488dp</dimen>
 </resources>
