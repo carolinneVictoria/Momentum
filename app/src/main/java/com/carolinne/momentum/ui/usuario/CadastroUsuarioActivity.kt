@@ -28,7 +28,7 @@ class CadastroUsuarioActivity  : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cadastro_usuario)
 
-        // Inicializa o Firebase Auth
+        // Inicializa o Firebase Auth00000000000000000000000000000000000000000000000000
         auth = FirebaseAuth.getInstance()
 
         textCadastroUsuarioTitle = findViewById(R.id.textCadastroUsuarioTitle)
