@@ -3,4 +3,23 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_profile">Profile</string>
+
+    <string name="escreva_aqui_o_endereço">Endereco</string>
+    <string name="atualizacao_de_usuario">Atualização de Usuário</string>
+    <string name="foto_de_perfil">Foto de perfil</string>
+    <string name="nome">Nome</string>
+    <string name="email">Email</string>
+    <string name="senha">Senha</string>
+    <string name="confirmar_senha">Confirmar Senha</string>
+    <string name="atualizar">Atualizar</string>
+    <string name="sair">Sair</string>
+    <string name="login_de_usuario">Login de Usuário</string>
+    <string name="email_login">Email</string>
+    <string name="senha_login">Senha</string>
+    <string name="login">Login</string>
+    <string name="cadastre_se">Cadastre-se</string>
+    <string name="login_com_google">Login com Google</string>
+    <string name="sair_cadastro">Sair</string>
+    <string name="cadastrar">Cadastrar</string>
+    <string name="default_web_client_id">default_web_client_id</string>
 </resources>

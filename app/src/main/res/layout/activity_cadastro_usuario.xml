@@ -11,9 +11,9 @@
     <TextView
         android:id="@+id/textCadastroUsuarioTitle"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/edit_text_height"
         android:layout_marginTop="32dp"
-        android:text="Cadastro de Usuário"
+        android:text="@string/cadastrar"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,18 +23,19 @@
     <EditText
         android:id="@+id/registerNameEditText"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Nome"
+        android:layout_height="@dimen/edit_text_height2"
         android:layout_marginTop="16dp"
+        android:hint="@string/nome"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textCadastroUsuarioTitle"/>
+        app:layout_constraintTop_toBottomOf="@id/textCadastroUsuarioTitle"
+        tools:ignore="TextFields" />
 
     <EditText
         android:id="@+id/registerEmailEditText"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Email"
+        android:layout_height="@dimen/edit_text_height"
+        android:hint="@string/email"
         android:inputType="textEmailAddress"
         app:layout_constraintTop_toBottomOf="@id/registerNameEditText"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,8 +44,8 @@
     <EditText
         android:id="@+id/registerPasswordEditText"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Senha"
+        android:layout_height="@dimen/edit_text_height"
+        android:hint="@string/senha"
         android:inputType="textPassword"
         app:layout_constraintTop_toBottomOf="@id/registerEmailEditText"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,8 +54,8 @@
     <EditText
         android:id="@+id/registerConfirmPasswordEditText"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Confirmar Senha"
+        android:layout_height="@dimen/edit_text_height"
+        android:hint="@string/confirmar_senha"
         android:inputType="textPassword"
         app:layout_constraintTop_toBottomOf="@id/registerPasswordEditText"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,8 +64,8 @@
     <Button
         android:id="@+id/registerButton"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Cadastrar"
+        android:layout_height="@dimen/edit_text_height"
+        android:text="@string/cadastrar"
         app:layout_constraintTop_toBottomOf="@id/registerConfirmPasswordEditText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -72,8 +73,8 @@
     <Button
         android:id="@+id/sairButton"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Sair"
+        android:layout_height="@dimen/edit_text_height"
+        android:text="@string/sair_cadastro"
         app:layout_constraintTop_toBottomOf="@id/registerButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
