@@ -62,7 +62,7 @@
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <Button
-        android:id="@+id/registerButton"
+        android:id="@+id/salvarButton"
         android:layout_width="0dp"
         android:layout_height="@dimen/edit_text_height"
         android:text="@string/cadastrar"
@@ -75,7 +75,7 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/edit_text_height"
         android:text="@string/sair_cadastro"
-        app:layout_constraintTop_toBottomOf="@id/registerButton"
+        app:layout_constraintTop_toBottomOf="@id/salvarButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
