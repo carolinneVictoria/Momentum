@@ -70,11 +70,11 @@ class HomeFragment : Fragment() {
                             .inflate(R.layout.item_template, container, false)
 
                         val imageView = itemView.findViewById<ImageView>(R.id.item_image)
-                        val tarefaView = itemView.findViewById<TextView>(R.id.item_endereco)
-                        val statusView = itemView.findViewById<TextView>(R.id.statusItemEditText)
+                        val tarefaView = itemView.findViewById<TextView>(R.id.item_tarefa)
+                        val statusView = itemView.findViewById<TextView>(R.id.item_status)
 
-                        tarefaView.text = "Tarefa: ${item.tarefa ?: "Não informada"}" +
-                                "\nStatus: ${item.statusTarefa ?: "Não informada"}"
+                        tarefaView.text = "Tarefa: ${item.tarefa ?: "Não informada"}"
+                        statusView.text = "Status: ${item.statusTarefa ?: "Não informado"}"
 
 
                         if (!item.imageUrl.isNullOrEmpty()) {
