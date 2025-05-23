@@ -1,5 +1,6 @@
 package com.carolinne.momentum.ui.home
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -57,6 +58,7 @@ class HomeFragment : Fragment() {
         val databaseRef = FirebaseDatabase.getInstance().getReference("itens")
 
         databaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            @SuppressLint("MissingInflatedId")
             override fun onDataChange(snapshot: DataSnapshot) {
                 container.removeAllViews()
 
@@ -68,9 +70,12 @@ class HomeFragment : Fragment() {
                             .inflate(R.layout.item_template, container, false)
 
                         val imageView = itemView.findViewById<ImageView>(R.id.item_image)
-                        val enderecoView = itemView.findViewById<TextView>(R.id.item_endereco)
+                        val tarefaView = itemView.findViewById<TextView>(R.id.item_endereco)
+                        val statusView = itemView.findViewById<TextView>(R.id.statusItemEditText)
 
-                        enderecoView.text = "Endereço: ${item.endereco ?: "Não informado"}"
+                        tarefaView.text = "Tarefa: ${item.tarefa ?: "Não informada"}" +
+                                "\nStatus: ${item.statusTarefa ?: "Não informada"}"
+
 
                         if (!item.imageUrl.isNullOrEmpty()) {
                             Glide.with(container.context).load(item.imageUrl).into(imageView)
@@ -81,6 +86,7 @@ class HomeFragment : Fragment() {
                                 imageView.setImageBitmap(bitmap)
                             } catch (_: Exception) {}
                         }
+
 
                         container.addView(itemView)
                     }
