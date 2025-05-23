@@ -37,7 +37,7 @@
         android:layout_margin="8dp"
         android:textAlignment="center"
         android:textSize="20sp"
-        android:text="@string/title_itens"
+        android:text="Tarefas"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/darkModeContainer" />
