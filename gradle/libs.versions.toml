@@ -26,6 +26,7 @@ playServicesAuth = "21.3.0"
 playServicesLocation = "21.3.0"
 firebaseFirestoreKtx = "25.1.4"
 firebaseCrashlyticsBuildtools = "3.0.3"
+firebaseMessagingKtx = "24.1.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -55,6 +56,7 @@ play-services-auth = { module = "com.google.android.gms:play-services-auth", ver
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
 firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-firestore-ktx", version.ref = "firebaseFirestoreKtx" }
 firebase-crashlytics-buildtools = { group = "com.google.firebase", name = "firebase-crashlytics-buildtools", version.ref = "firebaseCrashlyticsBuildtools" }
+firebase-messaging-ktx = { group = "com.google.firebase", name = "firebase-messaging-ktx", version.ref = "firebaseMessagingKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
