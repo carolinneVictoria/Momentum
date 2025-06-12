@@ -1,6 +1,5 @@
 package com.carolinne.momentum.ui.login
 
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
