@@ -27,6 +27,7 @@
         </activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".ui.usuario.CadastroUsuarioActivity" />
+        <activity android:name=".ui.ai.AiLogicActivity" />
         <service
             android:name=".ui.firebase.MyFirebaseMessagingService"
             android:exported="false">
