@@ -1,4 +1,4 @@
-package com.jailton.androidapptemplate.ui.home
+package com.carolinne.momentum.ui.home
 
 import android.content.Context
 import android.os.Bundle
@@ -18,9 +18,9 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.jailton.androidapptemplate.R
-import com.jailton.androidapptemplate.baseclasses.Item
-import com.jailton.androidapptemplate.databinding.FragmentHomeBinding
+import com.carolinne.momentum.R
+import com.carolinne.momentum.baseclasses.Item
+import com.carolinne.momentum.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
 
@@ -66,7 +66,7 @@ class HomeFragment : Fragment() {
                             .inflate(R.layout.item_template, container, false)
 
                         val imageView = itemView.findViewById<ImageView>(R.id.item_image)
-                        val enderecoView = itemView.findViewById<TextView>(R.id.item_endereco)
+                        val enderecoView = itemView.findViewById<TextView>(R.id.item_status)
 
                         enderecoView.text = "Endereço: ${item.endereco ?: "Não informado"}"
 
