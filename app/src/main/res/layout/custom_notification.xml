@@ -7,11 +7,11 @@
 
     <TextView
         android:id="@+id/status_text"
-        android:text="Status do pedido"
-        android:textStyle="bold"
-        android:textSize="16sp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="Status da tarefa:"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <ProgressBar
         android:id="@+id/progress_bar"
