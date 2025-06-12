@@ -1,6 +1,5 @@
-package com.carolinne.momentum.ui.home
+package com.jailton.androidapptemplate.ui.home
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,19 +8,19 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import com.carolinne.momentum.databinding.FragmentHomeBinding
 import android.util.Base64
 import android.widget.*
 import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SwitchCompat
 import com.bumptech.glide.Glide
-import com.carolinne.momentum.R
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.carolinne.momentum.baseclasses.Item
+import com.jailton.androidapptemplate.R
+import com.jailton.androidapptemplate.baseclasses.Item
+import com.jailton.androidapptemplate.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
 
@@ -36,7 +35,6 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
         val container = view.findViewById<LinearLayout>(R.id.itemContainer)
@@ -57,7 +55,6 @@ class HomeFragment : Fragment() {
         val databaseRef = FirebaseDatabase.getInstance().getReference("itens")
 
         databaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
-            @SuppressLint("MissingInflatedId")
             override fun onDataChange(snapshot: DataSnapshot) {
                 container.removeAllViews()
 
@@ -69,12 +66,9 @@ class HomeFragment : Fragment() {
                             .inflate(R.layout.item_template, container, false)
 
                         val imageView = itemView.findViewById<ImageView>(R.id.item_image)
-                        val tarefaView = itemView.findViewById<TextView>(R.id.item_tarefa)
-                        val statusView = itemView.findViewById<TextView>(R.id.item_status)
+                        val enderecoView = itemView.findViewById<TextView>(R.id.item_endereco)
 
-                        tarefaView.text = "Tarefa: ${item.tarefa ?: "Não informada"}"
-                        statusView.text = "Status: ${item.statusTarefa ?: "Não informado"}"
-
+                        enderecoView.text = "Endereço: ${item.endereco ?: "Não informado"}"
 
                         if (!item.imageUrl.isNullOrEmpty()) {
                             Glide.with(container.context).load(item.imageUrl).into(imageView)
@@ -85,7 +79,6 @@ class HomeFragment : Fragment() {
                                 imageView.setImageBitmap(bitmap)
                             } catch (_: Exception) {}
                         }
-
 
                         container.addView(itemView)
                     }
