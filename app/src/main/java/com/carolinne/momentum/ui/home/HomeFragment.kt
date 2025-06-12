@@ -11,8 +11,10 @@ import androidx.fragment.app.Fragment
 import android.util.Base64
 import android.widget.*
 import android.graphics.BitmapFactory
+import android.net.Uri
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SwitchCompat
+import androidx.core.content.ContextCompat.startActivity
 import com.bumptech.glide.Glide
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -111,3 +113,5 @@ class HomeFragment : Fragment() {
         }
     }
 }
+
+
