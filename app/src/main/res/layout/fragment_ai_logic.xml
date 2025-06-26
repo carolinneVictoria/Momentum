@@ -1,32 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/ai_logic_layout"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center_horizontal"
+    tools:context=".ui.ai.AiLogicFragment">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Converse com a IA"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"/>
 
     <EditText
         android:id="@+id/prompt_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Digite seu prompt"
-        android:minHeight="100dp"
-        android:gravity="top"
+        android:hint="Digite seu prompt aqui..."
+        android:minHeight="48dp"
         android:inputType="textMultiLine"
-        android:layout_marginBottom="16dp" />
+        android:maxLines="5"
+        android:padding="8dp"
+        android:background="@android:drawable/editbox_background"/>
+
+    <!-- Adicionado: ImageView para mostrar a imagem selecionada -->
+    <ImageView
+        android:id="@+id/bitmapImageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="16dp"
+        android:scaleType="centerCrop"
+        android:src="@android:drawable/gallery_thumb"
+        android:contentDescription="Imagem selecionada para IA"/>
+
+    <!-- Adicionado: Botão para selecionar imagem -->
+    <Button
+        android:id="@+id/btn_select_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Selecionar Imagem"
+        android:layout_marginTop="8dp" />
 
     <Button
         android:id="@+id/btn_generate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Gerar resposta" />
+        android:text="Gerar Resposta"
+        android:layout_marginTop="16dp"/>
 
-    <TextView
-        android:id="@+id/result_text"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Resultado aparecerá aqui"
-        android:layout_marginTop="24dp"
-        android:textSize="16sp" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:id="@+id/result_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Resultados da IA aparecerão aqui..."
+            android:textSize="16sp"
+            android:padding="8dp"
+            android:background="@android:color/darker_gray"
+            android:textColor="@android:color/white"/>
+    </ScrollView>
+
 </LinearLayout>
