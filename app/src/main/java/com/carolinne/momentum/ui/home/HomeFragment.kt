@@ -37,20 +37,28 @@ import com.carolinne.momentum.R
 import com.carolinne.momentum.baseclasses.Item
 import com.carolinne.momentum.databinding.FragmentHomeBinding
 import com.carolinne.momentum.ui.ai.AiLogicActivity
-import com.carolinne.momentum.ui.ai.AiLogicFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Locale
+import java.io.IOException
+import android.util.Log
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private lateinit var currentAddressTextView: TextView
+    private lateinit var distanceToFixedPointTextView: TextView
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
     private lateinit var locationRequest: LocationRequest
+
+
+    private val fixedPointLocation = Location("PontoFixo").apply {
+        latitude = -23.587122 // Latitude do Parque Ibirapuera
+        longitude = -46.677516 // Longitude do Parque Ibirapuera
+    }
 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
@@ -64,36 +72,38 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-
     ): View {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
 
+        currentAddressTextView = view.findViewById(R.id.currentAddressTextView)
+        distanceToFixedPointTextView = view.findViewById(R.id.distanceToFixedPointTextView) // NOVO: Inicialização
+
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
-        if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            requestLocationPermission()
-        } else {
-            getCurrentLocation()
+        locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 30000)
+            .build()
+
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult) {
+                locationResult.lastLocation?.let { location ->
+                    displayAddress(location)
+                    calculateDistanceToFixedPoint(location) 
+                }
+            }
         }
 
 
-        val container = view.findViewById<LinearLayout>(R.id.itemContainer)
-        carregarItensMarketplace(container)
+
+        val itemContainer = view.findViewById<LinearLayout>(R.id.itemContainer)
+        carregarItensMarketplace(itemContainer)
 
         val switch = view.findViewById<SwitchCompat>(R.id.darkModeSwitch)
         habilitaDarkMode(switch)
 
         val fab = view.findViewById<FloatingActionButton>(R.id.fab_ai)
-        val scrollView = view.findViewById<ScrollView>(R.id.scrollView)
-        val fragmentContainer = view.findViewById<FrameLayout>(R.id.fragment_container)
+        // val scrollView = view.findViewById<ScrollView>(R.id.scrollView)
+        // val fragmentContainer = view.findViewById<FrameLayout>(R.id.fragment_container)
 
         fab.setOnClickListener {
             val context = view.context
@@ -104,11 +114,32 @@ class HomeFragment : Fragment() {
         return view
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        if (checkLocationPermissions()) {
+            getCurrentLocation()
+        } else {
+            requestLocationPermission()
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        if (::fusedLocationClient.isInitialized && ::locationCallback.isInitialized) {
+            fusedLocationClient.removeLocationUpdates(locationCallback)
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
 
+        if (::fusedLocationClient.isInitialized && ::locationCallback.isInitialized) {
+            fusedLocationClient.removeLocationUpdates(locationCallback)
+        }
+    }
 
     fun carregarItensMarketplace(container: LinearLayout) {
         val databaseRef = FirebaseDatabase.getInstance().getReference("itens")
@@ -153,6 +184,16 @@ class HomeFragment : Fragment() {
     }
 
 
+    private fun checkLocationPermissions(): Boolean {
+        return ActivityCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
     private fun requestLocationPermission() {
         requestPermissions(
             arrayOf(
@@ -173,11 +214,22 @@ class HomeFragment : Fragment() {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 getCurrentLocation()
             } else {
-                Snackbar.make(
-                    requireView(),
-                    "Permission denied. Cannot access location.",
-                    Snackbar.LENGTH_LONG
-                ).show()
+                view?.let {
+                    Snackbar.make(
+                        it,
+                        "Permissão negada. Não é possível acessar a localização.",
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                } ?: run {
+                    android.util.Log.e("HomeFragment", "View nula ao tentar mostrar Snackbar de permissão negada.")
+                }
+                if (::currentAddressTextView.isInitialized && view != null) {
+                    currentAddressTextView.text = "Permissão negada."
+                }
+
+                if (::distanceToFixedPointTextView.isInitialized && view != null) {
+                    distanceToFixedPointTextView.text = "Distância: Permissão negada."
+                }
             }
         }
     }
@@ -194,21 +246,6 @@ class HomeFragment : Fragment() {
             return
         }
 
-        locationCallback = object : LocationCallback() {
-            override fun onLocationResult(locationResult: LocationResult) {
-                locationResult.lastLocation?.let { location ->
-                    displayAddress(location)
-                }
-            }
-        }
-
-        locationRequest = LocationRequest.create().apply {
-            interval = 30000 // Intervalo em milissegundos para atualizacoes de localizacao
-            fastestInterval =
-                30000 // O menor intervalo de tempo para receber atualizacoes de localizacao
-            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        }
-
         fusedLocationClient.requestLocationUpdates(
             locationRequest,
             locationCallback,
@@ -218,34 +255,60 @@ class HomeFragment : Fragment() {
 
     private fun displayAddress(location: Location) {
         val geocoder = Geocoder(requireContext(), Locale.getDefault())
-        val addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1)
-
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val address = addresses?.firstOrNull()?.getAddressLine(0) ?: "Address not found"
+                val addresses: List<android.location.Address>? = geocoder.getFromLocation(location.latitude, location.longitude, 1)
+
+                val address = addresses?.firstOrNull()?.getAddressLine(0) ?: "Endereço não encontrado"
                 withContext(Dispatchers.Main) {
-                    currentAddressTextView.text = address
+                    if (::currentAddressTextView.isInitialized) {
+                        currentAddressTextView.text = address
+                    }
                 }
+            } catch (e: IOException) {
+                withContext(Dispatchers.Main) {
+                    if (::currentAddressTextView.isInitialized) {
+                        currentAddressTextView.text = "Erro: ${e.message}"
+                    }
+                }
+                android.util.Log.e("HomeFragment", "Geocoder IOException: ${e.message}")
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    currentAddressTextView.text = "Error: ${e.message}"
+                    if (::currentAddressTextView.isInitialized) {
+                        currentAddressTextView.text = "Erro: ${e.message}"
+                    }
                 }
+                android.util.Log.e("HomeFragment", "Erro geral em displayAddress: ${e.message}")
             }
         }
     }
 
-    fun habilitaDarkMode(switch: SwitchCompat){
+    /**
+     * NOVO: Método para calcular e exibir a distância até o ponto fixo.
+     * @param currentLocation A localização atual do usuário.
+     */
+    private fun calculateDistanceToFixedPoint(currentLocation: Location) {
+        val distanceInMeters = currentLocation.distanceTo(fixedPointLocation)
+        val distanceInKm = distanceInMeters / 1000.0
 
+
+        if (::distanceToFixedPointTextView.isInitialized) {
+            distanceToFixedPointTextView.text = "Distância para o Parque Ibirapuera: %.2f km".format(distanceInKm)
+        }
+        Log.d("HomeFragment", "Distância calculada: %.2f km".format(distanceInKm))
+    }
+
+    fun habilitaDarkMode(switch: SwitchCompat){
         val prefs = requireActivity().getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
 
-        // Estado salvo
+
         val darkMode = prefs.getBoolean("dark_mode", false)
         switch.isChecked = darkMode
         AppCompatDelegate.setDefaultNightMode(
             if (darkMode) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
         )
 
-        // Listener de mudança
+
         switch.setOnCheckedChangeListener { _, isChecked ->
             prefs.edit().putBoolean("dark_mode", isChecked).apply()
             AppCompatDelegate.setDefaultNightMode(
