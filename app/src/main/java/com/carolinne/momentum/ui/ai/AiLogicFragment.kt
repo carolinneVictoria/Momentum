@@ -28,7 +28,7 @@ class AiLogicFragment : Fragment() {
     ): View {
         val view = inflater.inflate(com.carolinne.momentum.R.layout.fragment_ai_logic, container, false)
 
-        
+
         promptInput = view.findViewById(com.carolinne.momentum.R.id.prompt_input)
         resultText = view.findViewById(com.carolinne.momentum.R.id.result_text)
         generateButton = view.findViewById(com.carolinne.momentum.R.id.btn_generate)
