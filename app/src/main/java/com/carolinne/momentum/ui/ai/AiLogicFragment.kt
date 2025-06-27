@@ -1,32 +1,27 @@
 package com.carolinne.momentum.ui.ai
 
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.widget.Toolbar
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.drawToBitmap
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
+import com.carolinne.momentum.R
 import com.google.firebase.Firebase
 import com.google.firebase.ai.GenerativeModel
 import com.google.firebase.ai.ai
 import com.google.firebase.ai.type.GenerativeBackend
-import com.carolinne.momentum.R
+import com.google.firebase.ai.type.content
 import kotlinx.coroutines.launch
-import android.app.Activity
-import android.content.Intent
-import android.graphics.Bitmap
-import android.provider.MediaStore
-import android.net.Uri
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.graphics.drawable.toBitmap
-import com.google.firebase.ai.core.util.content
-
-import com.bumptech.glide.Glide
 
 class AiLogicFragment : Fragment() {
 
