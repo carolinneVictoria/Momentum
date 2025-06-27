@@ -96,7 +96,8 @@ class HomeFragment : Fragment() {
 
 
         val itemContainer = view.findViewById<LinearLayout>(R.id.itemContainer)
-        carregarItensMarketplace(itemContainer)
+        carregarItens(itemContainer)
+        
 
         val switch = view.findViewById<SwitchCompat>(R.id.darkModeSwitch)
         habilitaDarkMode(switch)
@@ -141,7 +142,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    fun carregarItensMarketplace(container: LinearLayout) {
+    fun carregarItens(container: LinearLayout) {
         val databaseRef = FirebaseDatabase.getInstance().getReference("itens")
 
         databaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
