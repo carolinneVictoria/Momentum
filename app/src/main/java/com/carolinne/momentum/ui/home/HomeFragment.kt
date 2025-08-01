@@ -44,11 +44,6 @@ import kotlinx.coroutines.withContext
 import java.util.Locale
 import java.io.IOException
 import android.util.Log
-import android.view.Gravity
-import androidx.appcompat.app.AlertDialog
-import com.google.firebase.auth.FirebaseAuth
-import com.carolinne.momentum.ui.dashboard.DashboardFragment
-import androidx.navigation.fragment.findNavController
 
 class HomeFragment : Fragment() {
 
@@ -59,23 +54,19 @@ class HomeFragment : Fragment() {
     private lateinit var locationCallback: LocationCallback
     private lateinit var locationRequest: LocationRequest
 
-    private lateinit var auth: FirebaseAuth
 
     private val fixedPointLocation = Location("PontoFixo").apply {
-        latitude = -23.587122
-        longitude = -46.677516
+        latitude = -23.587122 // Latitude do Parque Ibirapuera
+        longitude = -46.677516 // Longitude do Parque Ibirapuera
     }
 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
     }
 
+    // This property is only valid between onCreateView and
+    // onDestroyView.
     private val binding get() = _binding!!
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        auth = FirebaseAuth.getInstance()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -84,8 +75,9 @@ class HomeFragment : Fragment() {
     ): View {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
+
         currentAddressTextView = view.findViewById(R.id.currentAddressTextView)
-        distanceToFixedPointTextView = view.findViewById(R.id.distanceToFixedPointTextView)
+        distanceToFixedPointTextView = view.findViewById(R.id.distanceToFixedPointTextView) // NOVO: Inicialização
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
@@ -96,18 +88,23 @@ class HomeFragment : Fragment() {
             override fun onLocationResult(locationResult: LocationResult) {
                 locationResult.lastLocation?.let { location ->
                     displayAddress(location)
-                    calculateDistanceToFixedPoint(location)
+                    calculateDistanceToFixedPoint(location) 
                 }
             }
         }
 
+
+
         val itemContainer = view.findViewById<LinearLayout>(R.id.itemContainer)
         carregarItens(itemContainer)
+        
 
         val switch = view.findViewById<SwitchCompat>(R.id.darkModeSwitch)
         habilitaDarkMode(switch)
 
         val fab = view.findViewById<FloatingActionButton>(R.id.fab_ai)
+        // val scrollView = view.findViewById<ScrollView>(R.id.scrollView)
+        // val fragmentContainer = view.findViewById<FrameLayout>(R.id.fragment_container)
 
         fab.setOnClickListener {
             val context = view.context
@@ -120,6 +117,7 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+
         if (checkLocationPermissions()) {
             getCurrentLocation()
         } else {
@@ -129,6 +127,7 @@ class HomeFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
+
         if (::fusedLocationClient.isInitialized && ::locationCallback.isInitialized) {
             fusedLocationClient.removeLocationUpdates(locationCallback)
         }
@@ -137,6 +136,7 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+
         if (::fusedLocationClient.isInitialized && ::locationCallback.isInitialized) {
             fusedLocationClient.removeLocationUpdates(locationCallback)
         }
@@ -149,38 +149,17 @@ class HomeFragment : Fragment() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 container.removeAllViews()
 
-                val currentUserId = auth.currentUser?.uid
-
-                if (snapshot.childrenCount == 0L) {
-                    val noItemsTextView = TextView(requireContext()).apply {
-                        text = "Nenhum hábito/tarefa disponível."
-
-                                gravity = Gravity.CENTER_HORIZONTAL
-                        setPadding(0, 50, 0, 0)
-                    }
-                    container.addView(noItemsTextView)
-                    return
-                }
-
-                var hasItemsForCurrentUser = false
-
                 for (userSnapshot in snapshot.children) {
-                    val userIdForItem = userSnapshot.key
-                    val isCurrentUserItem = userIdForItem == currentUserId
-
                     for (itemSnapshot in userSnapshot.children) {
                         val item = itemSnapshot.getValue(Item::class.java) ?: continue
-                        val itemId = itemSnapshot.key
 
                         val itemView = LayoutInflater.from(container.context)
                             .inflate(R.layout.item_template, container, false)
 
                         val imageView = itemView.findViewById<ImageView>(R.id.item_image)
-                        val tarefaView = itemView.findViewById<TextView>(R.id.item_tarefa)
-                        val statusDisplayView = itemView.findViewById<TextView>(R.id.item_status_display) // ID CORRIGIDO
+                        val enderecoView = itemView.findViewById<TextView>(R.id.item_endereco)
 
-                        tarefaView.text = "Tarefa: ${item.tarefa ?: "Não informada"}"
-                        statusDisplayView.text = "Status: ${item.statusTarefa ?: "Não informado"}" // PROPRIEDADE CORRIGIDA E EXIBIÇÃO CORRETA
+                        enderecoView.text = "Endereço: ${item.endereco ?: "Não informado"}"
 
                         if (!item.imageUrl.isNullOrEmpty()) {
                             Glide.with(container.context).load(item.imageUrl).into(imageView)
@@ -190,92 +169,21 @@ class HomeFragment : Fragment() {
                                 val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
                                 imageView.setImageBitmap(bitmap)
                             } catch (_: Exception) {
-                                // Erro ao decodificar Base64, pode ser útil logar
-                                Log.e("HomeFragment", "Erro ao decodificar Base64 para item ${itemId}")
                             }
-                        }
-
-                        val deleteButton = itemView.findViewById<ImageButton>(R.id.delete_item_button)
-                        val editButton = itemView.findViewById<ImageButton>(R.id.edit_item_button)
-
-                        if (isCurrentUserItem && itemId != null) {
-                            deleteButton.visibility = View.VISIBLE
-                            editButton.visibility = View.VISIBLE
-                            hasItemsForCurrentUser = true
-
-                            deleteButton.setOnClickListener {
-                                AlertDialog.Builder(requireContext())
-                                    .setTitle("Confirmar Exclusão de Hábito")
-                                    .setMessage("Tem certeza que deseja excluir '${item.tarefa ?: "este hábito"}'?")
-                                    .setPositiveButton("Excluir") { dialog, which ->
-                                        deleteItem(userIdForItem!!, itemId, container)
-                                    }
-                                    .setNegativeButton("Cancelar", null)
-                                    .show()
-                            }
-
-                            editButton.setOnClickListener {
-                                val args = Bundle().apply {
-                                    putSerializable("item_object", item)
-                                    putString("item_id", itemId)
-                                    putString("user_id", userIdForItem)
-                                }
-                                findNavController().navigate(R.id.action_navigation_home_to_navigation_dashboard, args)
-                            }
-
-                        } else {
-                            deleteButton.visibility = View.GONE
-                            editButton.visibility = View.GONE
                         }
 
                         container.addView(itemView)
                     }
                 }
-
-                // Ajusta a mensagem de "Nenhum item" baseado no usuário atual
-                if (currentUserId != null) {
-                    val userItemsSnapshot = snapshot.child(currentUserId)
-                    if (!userItemsSnapshot.exists() || userItemsSnapshot.childrenCount == 0L) {
-                        val noMyItemsTextView = TextView(requireContext()).apply {
-                            text = "Você ainda não tem hábitos/tarefas cadastradas."
-
-                                    gravity = Gravity.CENTER_HORIZONTAL
-                            setPadding(0, 50, 0, 0)
-                        }
-                        // Remove a mensagem genérica se já foi adicionada e adiciona a específica
-                        if (container.childCount == 0 || container.getChildAt(0) is TextView && (container.getChildAt(0) as TextView).text.contains("Nenhum hábito/tarefa disponível")) {
-                            container.removeAllViews()
-                        }
-                        container.addView(noMyItemsTextView)
-                    } else if (!hasItemsForCurrentUser && container.childCount > 0) {
-                        // Este caso é para quando o usuário tem itens, mas não há visualização para eles
-                        // ou se houver itens de outros usuários, mas não do atual.
-                        // A lógica acima com 'hasItemsForCurrentUser' já lida com a visibilidade dos botões.
-                        // Esta condição específica aqui pode ser removida para simplificar.
-                    }
-                }
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(container.context, "Erro ao carregar dados: ${error.message}", Toast.LENGTH_SHORT)
+                Toast.makeText(container.context, "Erro ao carregar dados", Toast.LENGTH_SHORT)
                     .show()
-                Log.e("HomeFragment", "Erro ao carregar itens do Firebase: ${error.message}", error.toException())
             }
         })
     }
 
-    private fun deleteItem(userId: String, itemId: String, container: LinearLayout) {
-        val itemRef = FirebaseDatabase.getInstance().getReference("itens").child(userId).child(itemId)
-        itemRef.removeValue()
-            .addOnSuccessListener {
-                Toast.makeText(requireContext(), "Hábito/Tarefa excluída com sucesso!", Toast.LENGTH_SHORT).show()
-                carregarItens(container)
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(requireContext(), "Erro ao excluir hábito/tarefa: ${e.message}", Toast.LENGTH_LONG).show()
-                Log.e("HomeFragment", "Erro ao excluir hábito/tarefa do Firebase: ${e.message}", e)
-            }
-    }
 
     private fun checkLocationPermissions(): Boolean {
         return ActivityCompat.checkSelfPermission(
@@ -291,7 +199,7 @@ class HomeFragment : Fragment() {
         requestPermissions(
             arrayOf(
                 Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.PERMISSION.ACCESS_COARSE_LOCATION
+                Manifest.permission.ACCESS_COARSE_LOCATION
             ),
             LOCATION_PERMISSION_REQUEST_CODE
         )
@@ -376,6 +284,10 @@ class HomeFragment : Fragment() {
         }
     }
 
+    /**
+     * NOVO: Método para calcular e exibir a distância até o ponto fixo.
+     * @param currentLocation A localização atual do usuário.
+     */
     private fun calculateDistanceToFixedPoint(currentLocation: Location) {
         val distanceInMeters = currentLocation.distanceTo(fixedPointLocation)
         val distanceInKm = distanceInMeters / 1000.0
