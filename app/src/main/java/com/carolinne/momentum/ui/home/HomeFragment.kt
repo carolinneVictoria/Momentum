@@ -88,7 +88,7 @@ class HomeFragment : Fragment() {
             override fun onLocationResult(locationResult: LocationResult) {
                 locationResult.lastLocation?.let { location ->
                     displayAddress(location)
-                    calculateDistanceToFixedPoint(location) 
+                    calculateDistanceToFixedPoint(location)
                 }
             }
         }
@@ -97,7 +97,7 @@ class HomeFragment : Fragment() {
 
         val itemContainer = view.findViewById<LinearLayout>(R.id.itemContainer)
         carregarItens(itemContainer)
-        
+
 
         val switch = view.findViewById<SwitchCompat>(R.id.darkModeSwitch)
         habilitaDarkMode(switch)
@@ -157,15 +157,17 @@ class HomeFragment : Fragment() {
                             .inflate(R.layout.item_template, container, false)
 
                         val imageView = itemView.findViewById<ImageView>(R.id.item_image)
-                        val enderecoView = itemView.findViewById<TextView>(R.id.item_endereco)
+                        val tarefaView = itemView.findViewById<TextView>(R.id.item_tarefa)
+                        val statusView = itemView.findViewById<TextView>(R.id.item_status)
 
-                        enderecoView.text = "Endereço: ${item.endereco ?: "Não informado"}"
+                        tarefaView.text = item.endereco?: "Não informado"
+                        statusView.text = item.tarefa?: "Não informado"
 
                         if (!item.imageUrl.isNullOrEmpty()) {
                             Glide.with(container.context).load(item.imageUrl).into(imageView)
-                        } else if (!item.base64Image.isNullOrEmpty()) {
+                        } else if (!item.statusTarefa.isNullOrEmpty()) {
                             try {
-                                val bytes = Base64.decode(item.base64Image, Base64.DEFAULT)
+                                val bytes = Base64.decode(item.statusTarefa, Base64.DEFAULT)
                                 val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
                                 imageView.setImageBitmap(bitmap)
                             } catch (_: Exception) {
