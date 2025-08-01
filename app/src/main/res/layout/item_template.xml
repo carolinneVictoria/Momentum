@@ -35,10 +35,10 @@
             <!-- Campos futuros aqui -->
 
             <TextView
-                android:id="@+id/item_endereco"
+                android:id="@+id/item_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Endereço:"
+                android:text="Status:"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
